@@ -1,0 +1,16 @@
+{
+  "json": {
+    "ESTACIONES": "5-6",
+    "ALMA DE PERFIL": 140,
+    "TIPO DE PERFIL": "C",
+    "PLANO": "GCV86",
+    "LONGITUD": 5630,
+    "PZ-1": 35,
+    "PZ-2": 1385,
+    "PZ-3": 2775,
+    "PZ-4": 4165,
+    "PZ-5": 5515,
+    "PZ-6": 5550
+  }
+}
+
