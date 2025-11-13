@@ -11,7 +11,7 @@ const datosEjemplo = {
   tipoPerfil: 'C',
   plano: 'GCV86',
   longitud: 5630,
-  punzones: {
+  punzonados: {
     'PZ-1': 35,
     'PZ-2': 1385,
     'PZ-3': 2775,

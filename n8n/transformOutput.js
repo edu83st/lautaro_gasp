@@ -1,6 +1,6 @@
 // Transforma el input eliminando la estructura "output" y devolviendo solo el listado de JSONs
 // Este código está diseñado para ejecutarse en un nodo Code de n8n
-// También transforma el array de punzones en un objeto con formato PZ-1, PZ-2, etc.
+// También transforma el array de punzonados en un objeto con formato PZ-1, PZ-2, etc.
 
 // Obtener todos los items de entrada desde n8n
 const items = $input.all();
@@ -9,22 +9,22 @@ const items = $input.all();
 const resultados = [];
 
 /**
- * Convierte un array de punzones en un objeto con formato { "PZ-1": valor1, "PZ-2": valor2, ... }
- * @param {Array} punzonesArray - Array de valores de punzones
+ * Convierte un array de punzonados en un objeto con formato { "PZ-1": valor1, "PZ-2": valor2, ... }
+ * @param {Array} punzonadosArray - Array de valores de punzonados
  * @returns {Object} - Objeto con formato { "PZ-1": valor1, "PZ-2": valor2, ... }
  */
-function convertirPunzonesArrayAObjeto(punzonesArray) {
-  if (!Array.isArray(punzonesArray)) {
+function convertirPunzonadosArrayAObjeto(punzonadosArray) {
+  if (!Array.isArray(punzonadosArray)) {
     return {};
   }
 
-  const punzonesObjeto = {};
-  punzonesArray.forEach((valor, index) => {
+  const punzonadosObjeto = {};
+  punzonadosArray.forEach((valor, index) => {
     const clave = `PZ-${index + 1}`;
-    punzonesObjeto[clave] = valor;
+    punzonadosObjeto[clave] = valor;
   });
 
-  return punzonesObjeto;
+  return punzonadosObjeto;
 }
 
 // Iterar sobre cada item
@@ -40,10 +40,10 @@ for (const item of items) {
         // Crear una copia del elemento para no modificar el original
         const elementoTransformado = { ...elemento };
 
-        // Convertir el array de punzones a objeto si existe
-        if (Array.isArray(elementoTransformado.punzones)) {
-          elementoTransformado.punzones = convertirPunzonesArrayAObjeto(
-            elementoTransformado.punzones
+        // Convertir el array de punzonados a objeto si existe
+        if (Array.isArray(elementoTransformado.punzonados)) {
+          elementoTransformado.punzonados = convertirPunzonadosArrayAObjeto(
+            elementoTransformado.punzonados
           );
         }
 

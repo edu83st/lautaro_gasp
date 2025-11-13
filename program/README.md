@@ -21,7 +21,7 @@ const datos = {
   tipoPerfil: 'C',
   plano: 'GCV86',
   longitud: 5630,
-  punzones: {
+  punzonados: {
     'PZ-1': 35,
     'PZ-2': 1385,
     'PZ-3': 2775,
@@ -54,10 +54,10 @@ node ejemplo.js
   tipoPerfil: string,      // "C", "U", "Z", "NRV", o "SIGMA"
   plano: string,           // Número de plano (ej: "GCV86")
   longitud: number,        // Longitud del perfil en mm
-  punzones: {              // Objeto con valores de punzones
-    'PZ-1': number,        // Valor del punzón 1 (posición en mm)
-    'PZ-2': number,        // Valor del punzón 2
-    // ... más punzones según sea necesario
+  punzonados: {              // Objeto con valores de punzonados
+    'PZ-1': number,        // Valor del punzonado 1 (posición en mm)
+    'PZ-2': number,        // Valor del punzonado 2
+    // ... más punzonados según sea necesario
   }
 }
 ```
@@ -96,4 +96,4 @@ El generador retorna un objeto con dos formatos:
 - TIPO DE PERFIL debe ser uno de: C, U, Z, NRV, SIGMA
 - PLANO es requerido
 - LONGITUD debe ser un número positivo
-- PUNZONES debe ser un objeto con al menos un punzón definido
+- PUNZONADOS debe ser un objeto con al menos un punzonado definido

@@ -30,7 +30,7 @@ Este proyecto emula el proceso de generación de archivos de texto (C200-.txt) a
 
 Lógica JavaScript que convierte datos estructurados en archivos de texto GASP.
 
-- **Entrada**: Datos estructurados (estaciones, tipo de perfil, longitud, punzones, etc.)
+- **Entrada**: Datos estructurados (estaciones, tipo de perfil, longitud, punzonados, etc.)
 - **Salida**: Archivo de texto en formato GASP
 
 ### 2. Nodos n8n (`n8n/`)
@@ -71,7 +71,7 @@ Ver `program/README.md` para detalles sobre el uso del generador.
   "tipoPerfil": "C",
   "plano": "GCV86",
   "longitud": 5630,
-  "punzones": {
+  "punzonados": {
     "PZ-1": 35,
     "PZ-2": 1385,
     "PZ-3": 2775,
@@ -89,4 +89,3 @@ El sistema genera un archivo de texto en formato GASP con secciones `[DATA]` y `
 ## Licencia
 
 [Especificar licencia si aplica]
-

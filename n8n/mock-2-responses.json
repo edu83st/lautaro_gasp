@@ -1,0 +1,40 @@
+[
+  {
+    "estaciones": "5-6",
+    "almaPerfil": 220,
+    "tipoPerfil": "C",
+    "plano": "GMB3",
+    "longitud": 7213,
+    "punzonados": {
+      "PZ-1": 82,
+      "PZ-2": 168,
+      "PZ-3": 7178,
+      "PZ-4": 7213
+    },
+    "distancias": [82, 86, 7010, 35],
+    "observaciones": [
+      {
+        "tipo": "info",
+        "campo": "general",
+        "mensaje": "Extracción completada exitosamente. Todas las validaciones pasaron."
+      }
+    ],
+    "requiere_revision": false
+  },
+  {
+    "estaciones": "",
+    "almaPerfil": 220,
+    "tipoPerfil": "C",
+    "plano": "GMB3",
+    "longitud": 7213,
+    "punzonados": {
+      "PZ-1": 82,
+      "PZ-2": 168,
+      "PZ-3": 7178,
+      "PZ-4": 7213
+    },
+    "distancias": [82, 86, 7010, 35],
+    "observaciones": [],
+    "requiere_revision": false
+  }
+]

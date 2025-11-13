@@ -65,8 +65,8 @@ function validarDatos(datos) {
     throw new Error('LONGITUD debe ser un número positivo');
   }
 
-  if (!datos.punzones || typeof datos.punzones !== 'object') {
-    throw new Error('PUNZONES es requerido y debe ser un objeto');
+  if (!datos.punzonados || typeof datos.punzonados !== 'object') {
+    throw new Error('PUNZONADOS es requerido y debe ser un objeto');
   }
 }
 
@@ -130,10 +130,10 @@ function generarSeccionData(datos, perfilesActivos) {
 }
 
 /**
- * Ordena los punzones por número (PZ-1, PZ-2, etc.)
+ * Ordena los punzonados por número (PZ-1, PZ-2, etc.)
  */
-function ordenarPunzones(punzones) {
-  return Object.entries(punzones)
+function ordenarPunzonados(punzonados) {
+  return Object.entries(punzonados)
     .filter(([nombre]) => nombre.startsWith('PZ-'))
     .sort(([a], [b]) => {
       const numA = parseInt(a.replace('PZ-', ''));
@@ -156,17 +156,17 @@ function generarSeccionBanco1(datos) {
   lineas.push('NOTE001= ');
   lineas.push('Error 2029');
 
-  // Procesar punzones ingresados
-  const punzonesOrdenados = ordenarPunzones(datos.punzones);
+  // Procesar punzonados ingresados
+  const punzonadosOrdenados = ordenarPunzonados(datos.punzonados);
 
-  // Crear un mapa de punzones por índice para acceso rápido
-  const punzonesMap = new Map();
+  // Crear un mapa de punzonados por índice para acceso rápido
+  const punzonadosMap = new Map();
   let maxPunzonIndex = 0;
 
-  for (const [pzNombre, valor] of punzonesOrdenados) {
+  for (const [pzNombre, valor] of punzonadosOrdenados) {
     if (valor !== null && valor !== undefined && valor !== '') {
       const numPunzon = parseInt(pzNombre.replace('PZ-', ''));
-      punzonesMap.set(numPunzon, valor);
+      punzonadosMap.set(numPunzon, valor);
       maxPunzonIndex = Math.max(maxPunzonIndex, numPunzon);
     }
   }
@@ -183,10 +183,10 @@ function generarSeccionBanco1(datos) {
   ]);
 
   for (let indicePV = 2; indicePV <= maxIndice; indicePV++) {
-    // VAL_X = valor del punzón si existe, sino 0
+    // VAL_X = valor del punzonado si existe, sino 0
     // El "Error 2029" antes de VAL_X ya fue agregado después del NOTE anterior
     const numPunzon = indicePV - 1; // PZ-1 corresponde a IND_PV002
-    const valorPunzon = punzonesMap.get(numPunzon) || 0;
+    const valorPunzon = punzonadosMap.get(numPunzon) || 0;
     lineas.push(`VAL_X${indicePV.toString().padStart(3, '0')}=${valorPunzon}`);
 
     // VAL_Y = 0 (sin espacio después del =)
@@ -242,7 +242,7 @@ function generarSeccionBanco1(datos) {
  * @param {string} datos.tipoPerfil - Tipo de perfil (ej: "C", "U", "Z", "NRV", "SIGMA")
  * @param {string} datos.plano - Número de plano (ej: "GCV86")
  * @param {number} datos.longitud - Longitud del perfil
- * @param {Object} datos.punzones - Objeto con los valores de punzones (ej: { "PZ-1": 35, "PZ-2": 1385 })
+ * @param {Object} datos.punzonados - Objeto con los valores de punzonados (ej: { "PZ-1": 35, "PZ-2": 1385 })
  * @returns {string} - Contenido del archivo en formato texto plano
  */
 function generarArchivo(datos) {
@@ -279,7 +279,7 @@ function normalizarDatosEntrada(datos) {
     datos.tipoPerfil &&
     datos.plano &&
     datos.longitud &&
-    datos.punzones
+    datos.punzonados
   ) {
     return datos;
   }
@@ -291,18 +291,18 @@ function normalizarDatosEntrada(datos) {
     tipoPerfil: datos.tipoPerfil || datos['TIPO DE PERFIL'] || '',
     plano: datos.plano || datos.PLANO || '',
     longitud: parseFloat(datos.longitud || datos.LONGITUD || 0),
-    punzones: datos.punzones || {},
+    punzonados: datos.punzonados || {},
   };
 
-  // Extraer punzones si vienen como campos separados (PZ-1, PZ-2, etc.)
+  // Extraer punzonados si vienen como campos separados (PZ-1, PZ-2, etc.)
   if (
-    !datosNormalizados.punzones ||
-    Object.keys(datosNormalizados.punzones).length === 0
+    !datosNormalizados.punzonados ||
+    Object.keys(datosNormalizados.punzonados).length === 0
   ) {
-    datosNormalizados.punzones = {};
+    datosNormalizados.punzonados = {};
     for (const key in datos) {
       if (key.startsWith('PZ-') || key.startsWith('pz-')) {
-        datosNormalizados.punzones[key] = parseFloat(datos[key]) || 0;
+        datosNormalizados.punzonados[key] = parseFloat(datos[key]) || 0;
       }
     }
   }

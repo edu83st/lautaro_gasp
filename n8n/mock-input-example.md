@@ -4,7 +4,7 @@ Estos son ejemplos de JSON que puedes usar como mock del nodo anterior en n8n pa
 
 ## Formato 1: Objeto estructurado (recomendado)
 
-Este formato es el más limpio y organizado. Los punzones vienen en un objeto separado:
+Este formato es el más limpio y organizado. Los punzonados vienen en un objeto separado:
 
 ```json
 {
@@ -14,7 +14,7 @@ Este formato es el más limpio y organizado. Los punzones vienen en un objeto se
     "tipoPerfil": "C",
     "plano": "GCV86",
     "longitud": 5630,
-    "punzones": {
+    "punzonados": {
       "PZ-1": 35,
       "PZ-2": 1385,
       "PZ-3": 2775,
@@ -62,9 +62,9 @@ Este formato simula cuando los datos vienen como campos separados en el JSON:
    - Puedes usar el nodo "Set" de n8n y configurar los valores manualmente
    - O crear un workflow de prueba con un nodo "Manual Trigger" seguido de un "Set"
 
-## Ejemplo con más punzones
+## Ejemplo con más punzonados
 
-Si necesitas probar con más punzones, simplemente agrega más campos PZ-X:
+Si necesitas probar con más punzonados, simplemente agrega más campos PZ-X:
 
 ```json
 {
@@ -74,7 +74,7 @@ Si necesitas probar con más punzones, simplemente agrega más campos PZ-X:
     "tipoPerfil": "C",
     "plano": "GCV86",
     "longitud": 5630,
-    "punzones": {
+    "punzonados": {
       "PZ-1": 35,
       "PZ-2": 1385,
       "PZ-3": 2775,
@@ -91,7 +91,7 @@ Si necesitas probar con más punzones, simplemente agrega más campos PZ-X:
 ## Notas importantes
 
 - Los valores numéricos deben ser números, no strings (sin comillas)
-- Los punzones pueden venir en cualquier orden, el código los ordena automáticamente
+- Los punzonados pueden venir en cualquier orden, el código los ordena automáticamente
 - Si falta algún campo requerido, el código lanzará un error descriptivo
 - El código valida que el tipo de perfil sea uno de: C, U, Z, NRV, SIGMA
 
