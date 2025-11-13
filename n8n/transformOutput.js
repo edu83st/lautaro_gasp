@@ -1,11 +1,31 @@
 // Transforma el input eliminando la estructura "output" y devolviendo solo el listado de JSONs
 // Este código está diseñado para ejecutarse en un nodo Code de n8n
+// También transforma el array de punzones en un objeto con formato PZ-1, PZ-2, etc.
 
 // Obtener todos los items de entrada desde n8n
 const items = $input.all();
 
 // Array para almacenar todos los objetos JSON encontrados
 const resultados = [];
+
+/**
+ * Convierte un array de punzones en un objeto con formato { "PZ-1": valor1, "PZ-2": valor2, ... }
+ * @param {Array} punzonesArray - Array de valores de punzones
+ * @returns {Object} - Objeto con formato { "PZ-1": valor1, "PZ-2": valor2, ... }
+ */
+function convertirPunzonesArrayAObjeto(punzonesArray) {
+  if (!Array.isArray(punzonesArray)) {
+    return {};
+  }
+
+  const punzonesObjeto = {};
+  punzonesArray.forEach((valor, index) => {
+    const clave = `PZ-${index + 1}`;
+    punzonesObjeto[clave] = valor;
+  });
+
+  return punzonesObjeto;
+}
 
 // Iterar sobre cada item
 for (const item of items) {
@@ -17,16 +37,32 @@ for (const item of items) {
     if (json.output.length > 0) {
       // Iterar sobre cada elemento del array output
       for (const elemento of json.output) {
-        // Si el elemento ya tiene estructura { json: {...} }, mantenerla
-        // Si el elemento tiene los datos directamente, envolverlos en { json: {...} }
-        if (elemento.json) {
-          resultados.push(elemento);
-        } else {
-          // El elemento tiene los datos directamente, envolverlos en la estructura esperada por n8n
-          resultados.push({
-            json: elemento,
-          });
+        // Crear una copia del elemento para no modificar el original
+        const elementoTransformado = { ...elemento };
+
+        // Convertir el array de punzones a objeto si existe
+        if (Array.isArray(elementoTransformado.punzones)) {
+          elementoTransformado.punzones = convertirPunzonesArrayAObjeto(
+            elementoTransformado.punzones
+          );
         }
+
+        // Asegurar que longitud sea un número si viene como string
+        if (typeof elementoTransformado.longitud === 'string') {
+          elementoTransformado.longitud =
+            parseFloat(elementoTransformado.longitud) || 0;
+        }
+
+        // Asegurar que almaPerfil sea un número si viene como string
+        if (typeof elementoTransformado.almaPerfil === 'string') {
+          elementoTransformado.almaPerfil =
+            parseFloat(elementoTransformado.almaPerfil) || 0;
+        }
+
+        // Envolver el elemento transformado en la estructura esperada por n8n
+        resultados.push({
+          json: elementoTransformado,
+        });
       }
     }
     // Si output está vacío, simplemente lo ignoramos

@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../my-first-n8n-project"
+		}
+	],
+	"settings": {}
+}
