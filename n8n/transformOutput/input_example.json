@@ -1,0 +1,28 @@
+[
+  {
+    "output": [
+      {
+        "estaciones": "No Identificado",
+        "almaPerfil": 220,
+        "tipoPerfil": "C",
+        "plano": "GMB13",
+        "longitud": 8189,
+        "punzonados": [35, 925, 1011, 8021, 8107],
+        "distancias": [35, 890, 86, 7010, 86, 82],
+        "observaciones": [
+          {
+            "severidad": "info",
+            "campo": "general",
+            "descripcion": "Extracción de datos del plano completada."
+          },
+          {
+            "severidad": "warning",
+            "campo": "estaciones",
+            "descripcion": "El campo 'estaciones' no pudo ser identificado en el plano. Se requiere revisión manual para confirmar."
+          }
+        ],
+        "requiere_revision": true
+      }
+    ]
+  }
+]
