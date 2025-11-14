@@ -13,6 +13,34 @@ const items = $input.all();
 const resultados = [];
 
 /**
+ * Extrae los elementos del input, manejando tanto el formato con "output" como sin él
+ * @param {Array} items - Items de entrada desde n8n
+ * @returns {Array} - Array de elementos a procesar
+ */
+function extraerElementos(items) {
+  const elementos = [];
+
+  for (const item of items) {
+    const json = item.json;
+
+    // Si el item tiene un campo "output" con un array, extraer los elementos de ese array
+    if (json.output && Array.isArray(json.output)) {
+      for (const elemento of json.output) {
+        elementos.push({ json: elemento });
+      }
+    } else {
+      // Si no tiene "output", usar el item directamente
+      elementos.push(item);
+    }
+  }
+
+  return elementos;
+}
+
+// Extraer elementos del input (maneja formato con "output" o sin él)
+const elementosAProcesar = extraerElementos(items);
+
+/**
  * Extrae los valores de punzonados de un objeto o array y los retorna ordenados
  * @param {Object|Array} punzonados - Objeto con formato { "PZ-1": valor, ... } o array
  * @returns {Array} - Array de valores numéricos ordenados
@@ -37,25 +65,8 @@ function extraerValoresPunzonados(punzonados) {
   return [];
 }
 
-/**
- * Obtiene la cantidad de punzonados desde un objeto o array
- * @param {Object|Array} punzonados - Objeto con formato { "PZ-1": valor, ... } o array
- * @returns {number} - Cantidad de punzonados
- */
-function obtenerCantidadPunzonados(punzonados) {
-  if (Array.isArray(punzonados)) {
-    return punzonados.length;
-  }
-
-  if (typeof punzonados === 'object' && punzonados !== null) {
-    return Object.keys(punzonados).length;
-  }
-
-  return 0;
-}
-
-// Iterar sobre cada item
-for (const item of items) {
+// Iterar sobre cada elemento a procesar
+for (const item of elementosAProcesar) {
   const json = item.json;
 
   // Crear una copia del elemento para no modificar el original
@@ -106,21 +117,49 @@ for (const item of items) {
 
   // Validación 2: La cantidad de grupos de punzonados debe ser igual a las medidas obtenidas - 1
   // (exceptuando la correspondiente a la de la longitud)
-  // Esto significa: cantidadPunzonados === distancias.length - 1
+  // Esto significa: cantidadGruposPunzonados === distancias.length - 1
   if (distancias.length > 0) {
-    const cantidadPunzonados = obtenerCantidadPunzonados(
-      elementoValidado.punzonados
-    );
+    // Obtener cantidadGruposPunzonados del elemento o calcularlo si no existe
+    let cantidadGruposPunzonados = elementoValidado.cantidadGruposPunzonados;
+
+    // Si no existe el campo, calcularlo desde los punzonados
+    if (
+      cantidadGruposPunzonados === undefined ||
+      cantidadGruposPunzonados === null
+    ) {
+      if (Array.isArray(elementoValidado.punzonados)) {
+        cantidadGruposPunzonados = elementoValidado.punzonados.length;
+      } else if (
+        typeof elementoValidado.punzonados === 'object' &&
+        elementoValidado.punzonados !== null
+      ) {
+        cantidadGruposPunzonados = Object.keys(
+          elementoValidado.punzonados
+        ).length;
+      } else {
+        cantidadGruposPunzonados = 0;
+      }
+    }
+
+    // Asegurar que sea un número
+    cantidadGruposPunzonados =
+      typeof cantidadGruposPunzonados === 'string'
+        ? parseFloat(cantidadGruposPunzonados)
+        : cantidadGruposPunzonados;
+
     const cantidadDistanciasSinLongitud = distancias.length - 1;
 
-    if (cantidadPunzonados !== cantidadDistanciasSinLongitud) {
+    if (cantidadGruposPunzonados !== cantidadDistanciasSinLongitud) {
       elementoValidado.observaciones.push({
         severidad: 'error',
-        campo: 'punzonados',
-        descripcion: `La cantidad de punzonados (${cantidadPunzonados}) no coincide con la cantidad de distancias menos 1 (${cantidadDistanciasSinLongitud}). Se esperaban ${cantidadDistanciasSinLongitud} punzonados.`,
+        campo: 'cantidadGruposPunzonados',
+        descripcion: `La cantidad de grupos de punzonados (${cantidadGruposPunzonados}) no coincide con la cantidad de distancias menos 1 (${cantidadDistanciasSinLongitud}). Se esperaban ${cantidadDistanciasSinLongitud} grupos de punzonados.`,
       });
       elementoValidado.requiere_revision = true;
     }
+
+    // Asegurar que el campo cantidadGruposPunzonados esté presente en el output
+    elementoValidado.cantidadGruposPunzonados = cantidadGruposPunzonados;
   } else {
     elementoValidado.observaciones.push({
       severidad: 'warning',

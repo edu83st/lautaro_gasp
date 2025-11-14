@@ -49,9 +49,30 @@ Recibirás una lista de URLs de Google Drive que apuntan a archivos PNG (planos 
 
 **Nota**: El primer archivo descargado NO siempre es un plano resumen o portada. Puede ser directamente un plano técnico individual.
 
+**⚠️ CASO ESPECIAL - Input desde checkPlanos:**
+
+Si recibes un input que contiene objetos JSON con el campo `observaciones` que incluye observaciones con `severidad: "error"` y `requiere_revision: true`, significa que estos datos provienen del nodo de validación `checkPlanos` y requieren reprocesamiento.
+
+En este caso:
+
+1. **Identifica los items con errores**: Revisa el campo `observaciones` de cada objeto y busca aquellas con `severidad: "error"`
+2. **Extrae la información del plano**: Cada objeto debe contener el campo `plano` (ej: "GMB13") que identifica el plano técnico
+3. **Reprocesa los planos con errores**:
+   - Usa el campo `plano` para identificar qué planos necesitan ser reprocesados
+   - Descarga nuevamente los planos correspondientes desde Google Drive usando `download_files`
+   - Aplica el mismo flujo de procesamiento (identificar tipo, obtener prompt específico, extraer datos)
+   - Presta especial atención a corregir los errores identificados en las observaciones:
+     - Si el error es sobre el último punzonado no coincidiendo con la longitud, verifica cuidadosamente ambos valores
+     - Si el error es sobre la cantidad de grupos de punzonados, cuenta nuevamente y valida contra las distancias
+4. **Genera nuevos objetos JSON** con los datos corregidos, asegurándote de que pasen todas las validaciones
+
 ## Procesamiento
 
 **CRÍTICO**: Debes procesar **TODOS** los planos técnicos individuales de la lista.
+
+**⚠️ DETECCIÓN DE INPUT DESDE checkPlanos:**
+
+Antes de comenzar el procesamiento, verifica si el input contiene objetos JSON con el campo `observaciones` que incluye observaciones con `severidad: "error"`. Si es así, sigue las instrucciones del caso especial descrito en la sección "Input" para reprocesar los planos con errores.
 
 ### Paso 1: Descarga de Prompts
 
