@@ -57,14 +57,16 @@ En este caso:
 
 1. **Identifica los items con errores**: Revisa el campo `observaciones` de cada objeto y busca aquellas con `severidad: "error"`
 2. **Extrae la información del plano**: Cada objeto debe contener el campo `plano` (ej: "GMB13") que identifica el plano técnico
-3. **Reprocesa los planos con errores**:
+3. **Obtén el número de chequeos actual**: Si el objeto tiene el campo `numeroChequeos`, úsalo como base. Si no existe, asume que es 0
+4. **Reprocesa los planos con errores**:
    - Usa el campo `plano` para identificar qué planos necesitan ser reprocesados
    - Descarga nuevamente los planos correspondientes desde Google Drive usando `download_files`
    - Aplica el mismo flujo de procesamiento (identificar tipo, obtener prompt específico, extraer datos)
    - Presta especial atención a corregir los errores identificados en las observaciones:
      - Si el error es sobre el último punzonado no coincidiendo con la longitud, verifica cuidadosamente ambos valores
      - Si el error es sobre la cantidad de grupos de punzonados, cuenta nuevamente y valida contra las distancias
-4. **Genera nuevos objetos JSON** con los datos corregidos, asegurándote de que pasen todas las validaciones
+5. **Incrementa el número de chequeos**: Al generar los nuevos objetos JSON, incrementa `numeroChequeos` en 1 respecto al valor anterior (si no existía, usa 0 como base, entonces será 1)
+6. **Genera nuevos objetos JSON** con los datos corregidos, asegurándote de que pasen todas las validaciones e incluyendo el campo `numeroChequeos` incrementado
 
 ## Procesamiento
 
@@ -115,8 +117,11 @@ Para cada plano técnico individual descargado:
 3. Extrae la información requerida según el formato especificado
 4. **Cuenta la cantidad de grupos de punzonados** leídos en el plano y almacénala en el campo `cantidadGruposPunzonados`
 5. **Valida que `cantidadGruposPunzonados` coincida con la cantidad de elementos en `distancias` menos 1** (excluyendo la última distancia que corresponde al largo de la pieza). Si no coincide, agrega una observación de tipo "warning" o "error" según corresponda y considera marcar `requiere_revision` como `true`
-6. Genera observaciones según sea necesario y determina si requiere revisión basándote en las validaciones realizadas
-7. Genera un objeto JSON con los datos extraídos, incluyendo el campo `observaciones` y el flag `requiere_revision`
+6. **Establece el número de chequeos**:
+   - Si es el primer procesamiento (input desde URLs de Google Drive), establece `numeroChequeos: 0`
+   - Si es un reprocesamiento (input desde checkPlanos), incrementa el `numeroChequeos` anterior en 1 (si no existía, usa 0 como base, entonces será 1)
+7. Genera observaciones según sea necesario y determina si requiere revisión basándote en las validaciones realizadas
+8. Genera un objeto JSON con los datos extraídos, incluyendo los campos `observaciones`, `requiere_revision`, `cantidadGruposPunzonados` y `numeroChequeos`
 
 **Reglas de procesamiento**:
 
@@ -159,6 +164,7 @@ El Structured Output Parser espera recibir directamente el array, no un objeto q
     "punzonados": [82, 164, 250, 418, 7178, 7213],
     "distancias": [82, 82, 86, 168, 6760, 35],
     "cantidadGruposPunzonados": 5,
+    "numeroChequeos": 0,
     "observaciones": [
       {
         "severidad": "info",
@@ -220,6 +226,7 @@ El Structured Output Parser espera recibir directamente el array, no un objeto q
 - `punzonados`: Array de números (valores de posición de los punzonados en mm)
 - `distancias`: Array de números (distancias entre punzonados en mm)
 - `cantidadGruposPunzonados`: Number (cantidad de grupos de punzonados leídos en el plano)
+- `numeroChequeos`: Number (número de veces que el plano ha sido procesado/chequeado. En el primer procesamiento debe ser 0, se incrementa en 1 cada vez que se reprocesa desde checkPlanos)
 - `observaciones`: Array de objetos con estructura `{"severidad": string, "campo": string, "descripcion": string}` (severidad puede ser: "error", "advertencia", "duda", "info")
 - `requiere_revision`: Boolean (true si necesita revisión humana, false en caso contrario)
 
@@ -232,9 +239,10 @@ El Structured Output Parser espera recibir directamente el array, no un objeto q
 - Si recibiste N planos en total y hay 1 resumen, el output debe contener (N-1) objetos
 - Si recibiste N planos en total y NO hay resumen, el output debe contener N objetos
 - **Cada objeto debe tener los datos directamente, SIN la estructura `{ "json": { ... } }`**
-- Los campos deben estar en el nivel raíz del objeto (estaciones, almaPerfil, tipoPerfil, plano, longitud, punzonados, distancias, cantidadGruposPunzonados)
+- Los campos deben estar en el nivel raíz del objeto (estaciones, almaPerfil, tipoPerfil, plano, longitud, punzonados, distancias, cantidadGruposPunzonados, numeroChequeos)
 - Si un campo no se puede extraer, usa valores por defecto apropiados o deja el campo vacío según las instrucciones del prompt específico
 - **Todos los valores numéricos deben ser números reales, NO strings como "integer"**
+- **CRÍTICO - Número de chequeos**: El campo `numeroChequeos` debe ser 0 en el primer procesamiento (cuando el input son URLs de Google Drive). Si el input viene desde checkPlanos, debe incrementarse en 1 respecto al valor anterior (si no existía, será 1)
 - **CRÍTICO - Validación de grupos de punzonados**: El campo `cantidadGruposPunzonados` debe coincidir con la cantidad de elementos en el array `distancias` menos 1 (excluyendo la última distancia que corresponde al largo de la pieza). Si no coincide, debes agregar una observación de tipo "warning" o "error" según corresponda en el campo `observaciones` y considerar marcar `requiere_revision` como `true`
 
 ## Flujo Completo
@@ -261,15 +269,16 @@ El Structured Output Parser espera recibir directamente el array, no un objeto q
    - Cuenta la cantidad de grupos de punzonados leídos en cada plano y almacénala en `cantidadGruposPunzonados`
    - Valida que `cantidadGruposPunzonados` coincida con la cantidad de elementos en `distancias` menos 1 (excluyendo la última distancia que corresponde al largo de la pieza)
    - Si la validación falla, agrega una observación de tipo "warning" o "error" según corresponda y considera marcar `requiere_revision` como `true`
+   - Establece el campo `numeroChequeos`: 0 si es el primer procesamiento, o incrementa en 1 si es un reprocesamiento desde checkPlanos
    - Genera observaciones según sea necesario y determina si requiere revisión basándote en las validaciones realizadas
-   - Genera un objeto JSON para cada plano técnico procesado, incluyendo los campos `observaciones`, `requiere_revision` y `cantidadGruposPunzonados`
+   - Genera un objeto JSON para cada plano técnico procesado, incluyendo los campos `observaciones`, `requiere_revision`, `cantidadGruposPunzonados` y `numeroChequeos`
 
 6. **Devolver el resultado**:
    - **IMPORTANTE**: Devuelve SOLO el array `[...]` directamente
    - NO escribas `{"output": [...]}` ni ningún otro objeto envolvente
    - El array debe contener todos los objetos JSON generados (un objeto por cada plano técnico procesado)
-   - Cada objeto debe incluir los campos `observaciones` (array) y `requiere_revision` (boolean)
-   - Ejemplo de lo que debes devolver: `[{"estaciones":"5-6",...,"observaciones":[],"requiere_revision":false}]`
+   - Cada objeto debe incluir los campos `observaciones` (array), `requiere_revision` (boolean) y `numeroChequeos` (number)
+   - Ejemplo de lo que debes devolver: `[{"estaciones":"5-6",...,"observaciones":[],"requiere_revision":false,"numeroChequeos":0}]`
    - Ejemplo de lo que NO debes devolver: `{"output":[{"estaciones":"5-6",...}]}`
 
 **Recordatorio crítico**:
@@ -281,7 +290,8 @@ El Structured Output Parser espera recibir directamente el array, no un objeto q
 - **CRÍTICO: El output DEBE ser un array directamente `[...]`, NO un objeto que contenga un array `{ "output": [...] }` o `{ "result": [...] }` o cualquier otra clave**
 - **Tu respuesta final debe comenzar con `[` y terminar con `]`, sin ningún objeto envolvente**
 - **Todos los valores numéricos deben ser números reales (ej: 7213), NO strings (ej: "integer" o "7213")**
-- **Cada objeto en el output DEBE incluir los campos `observaciones` (array), `requiere_revision` (boolean) y `cantidadGruposPunzonados` (number)**
+- **Cada objeto en el output DEBE incluir los campos `observaciones` (array), `requiere_revision` (boolean), `cantidadGruposPunzonados` (number) y `numeroChequeos` (number)**
+- **El campo `numeroChequeos` debe ser 0 en el primer procesamiento, o incrementarse en 1 si es un reprocesamiento desde checkPlanos**
 - **El campo `cantidadGruposPunzonados` debe coincidir con la cantidad de elementos en `distancias` menos 1 (excluyendo la última distancia que corresponde al largo de la pieza)**
 
 ## Verificación Final Antes de Devolver la Respuesta
@@ -292,8 +302,9 @@ Antes de devolver tu respuesta, verifica lo siguiente:
 2. ✅ ¿NO está envuelta en un objeto como `{"output": [...]}` o `{"result": [...]}`?
 3. ✅ ¿Todos los valores numéricos son números reales (no strings)?
 4. ✅ ¿El número de objetos en el array coincide con el número de planos procesados?
-5. ✅ ¿Cada objeto incluye el campo `observaciones` (array), `requiere_revision` (boolean) y `cantidadGruposPunzonados` (number)?
-6. ✅ ¿Las observaciones siguen el formato correcto con `severidad`, `campo` y `descripcion`?
-7. ✅ ¿El campo `cantidadGruposPunzonados` coincide con la cantidad de elementos en `distancias` menos 1 (excluyendo la última distancia que corresponde al largo de la pieza)? Si no coincide, ¿se agregó una observación apropiada?
+5. ✅ ¿Cada objeto incluye el campo `observaciones` (array), `requiere_revision` (boolean), `cantidadGruposPunzonados` (number) y `numeroChequeos` (number)?
+6. ✅ ¿El campo `numeroChequeos` es 0 en el primer procesamiento, o está incrementado correctamente si es un reprocesamiento?
+7. ✅ ¿Las observaciones siguen el formato correcto con `severidad`, `campo` y `descripcion`?
+8. ✅ ¿El campo `cantidadGruposPunzonados` coincide con la cantidad de elementos en `distancias` menos 1 (excluyendo la última distancia que corresponde al largo de la pieza)? Si no coincide, ¿se agregó una observación apropiada?
 
 **Si tu respuesta NO comienza con `[`, entonces está incorrecta y debes corregirla antes de devolverla.**

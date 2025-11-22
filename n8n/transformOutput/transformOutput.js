@@ -3,7 +3,8 @@
 // También transforma el array de punzonados en un objeto con formato PZ-1, PZ-2, etc.
 
 // Obtener todos los items de entrada desde n8n
-const items = $input.all();
+const items = $('AI Agent').first().json;
+return { items };
 
 // Array para almacenar todos los objetos JSON encontrados
 const resultados = [];

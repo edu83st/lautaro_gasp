@@ -1,0 +1,11 @@
+[
+  {
+    "numeroChequeos": 0,
+    "observaciones": [
+      "plano GMB13 Extracción de datos del plano completada.",
+      "plano GMB13 El campo 'estaciones' no pudo ser identificado en el plano. Se requiere revisión manual para confirmar.",
+      "plano GMB13 El último punzonado (8107) no coincide con la longitud de la pieza (8189). Diferencia: 82"
+    ],
+    "necesitaCorreccion": true
+  }
+]

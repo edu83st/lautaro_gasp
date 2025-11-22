@@ -65,8 +65,18 @@ function validarDatos(datos) {
     throw new Error('LONGITUD debe ser un número positivo');
   }
 
-  if (!datos.punzonados || typeof datos.punzonados !== 'object') {
-    throw new Error('PUNZONADOS es requerido y debe ser un objeto');
+  if (!datos.punzonados) {
+    throw new Error('PUNZONADOS es requerido');
+  }
+
+  if (Array.isArray(datos.punzonados)) {
+    throw new Error(
+      'PUNZONADOS debe ser un objeto, no un array. Use el formato { "PZ-1": valor1, "PZ-2": valor2, ... }'
+    );
+  }
+
+  if (typeof datos.punzonados !== 'object' || datos.punzonados === null) {
+    throw new Error('PUNZONADOS debe ser un objeto');
   }
 }
 
@@ -166,7 +176,10 @@ function generarSeccionBanco1(datos) {
   for (const [pzNombre, valor] of punzonadosOrdenados) {
     if (valor !== null && valor !== undefined && valor !== '') {
       const numPunzon = parseInt(pzNombre.replace('PZ-', ''));
-      punzonadosMap.set(numPunzon, valor);
+      // Convertir el valor a número para asegurar consistencia
+      const valorNumerico =
+        typeof valor === 'number' ? valor : parseFloat(valor) || 0;
+      punzonadosMap.set(numPunzon, valorNumerico);
       maxPunzonIndex = Math.max(maxPunzonIndex, numPunzon);
     }
   }
@@ -186,7 +199,9 @@ function generarSeccionBanco1(datos) {
     // VAL_X = valor del punzonado si existe, sino 0
     // El "Error 2029" antes de VAL_X ya fue agregado después del NOTE anterior
     const numPunzon = indicePV - 1; // PZ-1 corresponde a IND_PV002
-    const valorPunzon = punzonadosMap.get(numPunzon) || 0;
+    const valorPunzon = punzonadosMap.has(numPunzon)
+      ? punzonadosMap.get(numPunzon)
+      : 0;
     lineas.push(`VAL_X${indicePV.toString().padStart(3, '0')}=${valorPunzon}`);
 
     // VAL_Y = 0 (sin espacio después del =)
@@ -269,30 +284,45 @@ function generarArchivo(datos) {
 // ============================================
 
 /**
+ * Convierte un array de punzonados en un objeto con formato { "PZ-1": valor1, "PZ-2": valor2, ... }
+ * @param {Array} punzonadosArray - Array de valores de punzonados
+ * @returns {Object} - Objeto con formato { "PZ-1": valor1, "PZ-2": valor2, ... }
+ */
+function convertirPunzonadosArrayAObjeto(punzonadosArray) {
+  if (!Array.isArray(punzonadosArray)) {
+    return punzonadosArray; // Ya es un objeto o null/undefined
+  }
+
+  const punzonadosObjeto = {};
+  punzonadosArray.forEach((valor, index) => {
+    const clave = `PZ-${index + 1}`;
+    punzonadosObjeto[clave] =
+      typeof valor === 'number' ? valor : parseFloat(valor) || 0;
+  });
+
+  return punzonadosObjeto;
+}
+
+/**
  * Normaliza los datos de entrada a un formato estándar
  */
 function normalizarDatosEntrada(datos) {
-  // Si los datos ya tienen la estructura correcta, devolverlos tal cual
-  if (
-    datos.estaciones &&
-    datos.almaPerfil &&
-    datos.tipoPerfil &&
-    datos.plano &&
-    datos.longitud &&
-    datos.punzonados
-  ) {
-    return datos;
-  }
-
   // Si los datos vienen en formato diferente (campos separados o mayúsculas)
   const datosNormalizados = {
-    estaciones: datos.estaciones || datos.ESTACIONES || '',
+    estaciones: datos.estaciones || datos.ESTACIONES || '5-6',
     almaPerfil: parseFloat(datos.almaPerfil || datos['ALMA DE PERFIL'] || 0),
     tipoPerfil: datos.tipoPerfil || datos['TIPO DE PERFIL'] || '',
     plano: datos.plano || datos.PLANO || '',
     longitud: parseFloat(datos.longitud || datos.LONGITUD || 0),
     punzonados: datos.punzonados || {},
   };
+
+  // Convertir punzonados de array a objeto si es necesario
+  if (Array.isArray(datosNormalizados.punzonados)) {
+    datosNormalizados.punzonados = convertirPunzonadosArrayAObjeto(
+      datosNormalizados.punzonados
+    );
+  }
 
   // Extraer punzonados si vienen como campos separados (PZ-1, PZ-2, etc.)
   if (
@@ -311,22 +341,114 @@ function normalizarDatosEntrada(datos) {
 }
 
 // Obtener todos los items de entrada desde n8n
-const items = $input.all();
+let items = [];
+try {
+  items = $input.all();
+} catch (error) {
+  // Si hay error al obtener input, retornar error
+  return [
+    {
+      json: {
+        error: true,
+        mensaje: `Error al obtener input: ${error.message}`,
+        stack: error.stack,
+      },
+    },
+  ];
+}
+
+// Debug: Log cantidad de items recibidos
+console.log(`[fileGenerator] Items recibidos: ${items.length}`);
+
+// Si no hay items, retornar un mensaje de error
+if (!items || items.length === 0) {
+  return [
+    {
+      json: {
+        error: true,
+        mensaje:
+          'No se recibieron items de entrada. Verifique que el nodo anterior esté enviando datos.',
+      },
+    },
+  ];
+}
 
 // Array para almacenar los resultados
 const resultados = [];
 
 // Procesar cada item
-for (const item of items) {
+for (let i = 0; i < items.length; i++) {
+  const item = items[i];
   try {
+    // Debug: Log del item actual
+    console.log(`[fileGenerator] Procesando item ${i + 1}/${items.length}`);
+
     // Obtener los datos del item
+    if (!item || !item.json) {
+      console.warn(`[fileGenerator] Item ${i + 1} no tiene propiedad json`);
+      resultados.push({
+        json: {
+          error: true,
+          mensaje: `Item ${i + 1} no tiene propiedad json`,
+          item: item,
+        },
+      });
+      continue;
+    }
+
     let datosEntrada = item.json;
 
     // Si el item tiene una propiedad "json" anidada, usarla
-    if (datosEntrada.json && typeof datosEntrada.json === 'object') {
+    if (
+      datosEntrada &&
+      datosEntrada.json &&
+      typeof datosEntrada.json === 'object'
+    ) {
       datosEntrada = datosEntrada.json;
     }
 
+    // Si el item tiene una estructura "items.output", extraer los elementos del output
+    if (
+      datosEntrada &&
+      datosEntrada.items &&
+      datosEntrada.items.output &&
+      Array.isArray(datosEntrada.items.output)
+    ) {
+      // Procesar cada elemento del output
+      for (const elemento of datosEntrada.items.output) {
+        const datosNormalizados = normalizarDatosEntrada(elemento);
+        const contenidoTxt = generarArchivo(datosNormalizados);
+        resultados.push({
+          json: {
+            contenido: contenidoTxt,
+            plano: datosNormalizados.plano,
+          },
+        });
+      }
+      continue; // Continuar con el siguiente item
+    }
+
+    // Si el item tiene una propiedad "output" directa, procesarla
+    if (
+      datosEntrada &&
+      datosEntrada.output &&
+      Array.isArray(datosEntrada.output)
+    ) {
+      // Procesar cada elemento del output
+      for (const elemento of datosEntrada.output) {
+        const datosNormalizados = normalizarDatosEntrada(elemento);
+        const contenidoTxt = generarArchivo(datosNormalizados);
+        resultados.push({
+          json: {
+            contenido: contenidoTxt,
+            plano: datosNormalizados.plano,
+          },
+        });
+      }
+      continue; // Continuar con el siguiente item
+    }
+
+    // Procesar el item normalmente
     // Normalizar los datos de entrada
     const datosNormalizados = normalizarDatosEntrada(datosEntrada);
 
@@ -342,14 +464,35 @@ for (const item of items) {
     });
   } catch (error) {
     // En caso de error, agregar el error al resultado
+    console.error(`[fileGenerator] Error procesando item ${i + 1}:`, error);
     resultados.push({
       json: {
         error: true,
         mensaje: error.message,
+        stack: error.stack,
         datosRecibidos: item.json,
+        itemIndex: i,
       },
     });
   }
+}
+
+// Debug: Log cantidad de resultados generados
+console.log(`[fileGenerator] Resultados generados: ${resultados.length}`);
+
+// Si no se generaron resultados, retornar un mensaje de error
+if (resultados.length === 0) {
+  return [
+    {
+      json: {
+        error: true,
+        mensaje:
+          'No se pudieron procesar los items. Verifique el formato de los datos de entrada.',
+        itemsRecibidos: items.length,
+        ejemploItem: items[0] ? items[0].json : null,
+      },
+    },
+  ];
 }
 
 // Retornar todos los resultados

@@ -1,7 +1,12 @@
 // Valida que cada item cumpla con la checklist de validación de planos
 // Este código está diseñado para ejecutarse en un nodo Code de n8n
+// También realiza transformaciones de datos (conversión de tipos, formato de punzonados)
 //
-// Checklist:
+// Transformaciones:
+// 1. Convierte array de punzonados a objeto con formato PZ-1, PZ-2, etc.
+// 2. Convierte valores string a números (longitud, almaPerfil)
+//
+// Checklist de validación:
 // 1. El último punzonado debe ser igual a la longitud de las piezas
 // 2. La cantidad de grupos de punzonados debe ser igual a las medidas obtenidas - 1
 //    (exceptuando la correspondiente a la de la longitud)
@@ -41,6 +46,25 @@ function extraerElementos(items) {
 const elementosAProcesar = extraerElementos(items);
 
 /**
+ * Convierte un array de punzonados en un objeto con formato { "PZ-1": valor1, "PZ-2": valor2, ... }
+ * @param {Array} punzonadosArray - Array de valores de punzonados
+ * @returns {Object} - Objeto con formato { "PZ-1": valor1, "PZ-2": valor2, ... }
+ */
+function convertirPunzonadosArrayAObjeto(punzonadosArray) {
+  if (!Array.isArray(punzonadosArray)) {
+    return {};
+  }
+
+  const punzonadosObjeto = {};
+  punzonadosArray.forEach((valor, index) => {
+    const clave = `PZ-${index + 1}`;
+    punzonadosObjeto[clave] = valor;
+  });
+
+  return punzonadosObjeto;
+}
+
+/**
  * Extrae los valores de punzonados de un objeto o array y los retorna ordenados
  * @param {Object|Array} punzonados - Objeto con formato { "PZ-1": valor, ... } o array
  * @returns {Array} - Array de valores numéricos ordenados
@@ -77,11 +101,24 @@ for (const item of elementosAProcesar) {
     elementoValidado.observaciones = [];
   }
 
-  // Asegurar que los valores numéricos sean números
+  // TRANSFORMACIONES: Convertir array de punzonados a objeto si es necesario
+  if (Array.isArray(elementoValidado.punzonados)) {
+    elementoValidado.punzonados = convertirPunzonadosArrayAObjeto(
+      elementoValidado.punzonados
+    );
+  }
+
+  // TRANSFORMACIONES: Asegurar que los valores numéricos sean números
+  // Longitud
   const longitud =
     typeof elementoValidado.longitud === 'string'
-      ? parseFloat(elementoValidado.longitud)
+      ? parseFloat(elementoValidado.longitud) || 0
       : elementoValidado.longitud;
+
+  // AlmaPerfil
+  if (typeof elementoValidado.almaPerfil === 'string') {
+    elementoValidado.almaPerfil = parseFloat(elementoValidado.almaPerfil) || 0;
+  }
 
   // Extraer valores de punzonados (maneja tanto objeto como array)
   const valoresPunzonados = extraerValoresPunzonados(
@@ -168,14 +205,24 @@ for (const item of elementosAProcesar) {
     });
   }
 
-  // Actualizar el elemento con los valores numéricos convertidos
-  elementoValidado.longitud = longitud;
-  elementoValidado.distancias = distancias;
-  // Mantener el formato original de punzonados (objeto o array)
+  // Asegurar que requiere_revision esté definido (por defecto false)
+  if (elementoValidado.requiere_revision === undefined) {
+    elementoValidado.requiere_revision = false;
+  }
 
-  // Envolver el elemento validado en la estructura esperada por n8n
+  // Convertir observaciones a formato string con prefijo del plano
+  const planoNombre = elementoValidado.plano || 'Sin identificar';
+  const observacionesFormateadas = elementoValidado.observaciones.map(
+    (obs) => `plano ${planoNombre} ${obs.descripcion}`
+  );
+
+  // OUTPUT: Formato simplificado con numeroChequeos, observaciones como strings y necesitaCorreccion
   resultados.push({
-    json: elementoValidado,
+    json: {
+      numeroChequeos: elementoValidado.numeroChequeos,
+      observaciones: observacionesFormateadas,
+      necesitaCorreccion: elementoValidado.requiere_revision,
+    },
   });
 }
 

@@ -1,31 +1,27 @@
 [
   {
-    "estaciones": "No Identificado",
-    "almaPerfil": 220,
-    "tipoPerfil": "C",
-    "plano": "GMB13",
-    "longitud": 8189,
-    "cantidadGruposPunzonados": 5,
-    "punzonados": {
-      "PZ-1": 35,
-      "PZ-2": 925,
-      "PZ-3": 1011,
-      "PZ-4": 8021,
-      "PZ-5": 8107
-    },
-    "distancias": [35, 890, 86, 7010, 86, 82],
-    "observaciones": [
-      {
-        "severidad": "info",
-        "campo": "general",
-        "descripcion": "Extracción de datos del plano completada."
-      },
-      {
-        "severidad": "warning",
-        "campo": "estaciones",
-        "descripcion": "El campo 'estaciones' no pudo ser identificado en el plano. Se requiere revisión manual para confirmar."
-      }
-    ],
-    "requiere_revision": true
+    "items": {
+      "output": [
+        {
+          "estaciones": "5-6",
+          "almaPerfil": 220,
+          "tipoPerfil": "C",
+          "plano": "GMB3",
+          "longitud": 7213,
+          "cantidadGruposPunzonados": 5,
+          "punzonados": [82, 164, 250, 418, 7178, 7213],
+          "distancias": [82, 82, 86, 168, 6760, 35],
+          "numeroChequeos": 1,
+          "observaciones": [
+            {
+              "severidad": "info",
+              "campo": "general",
+              "descripcion": "Reprocesamiento completado exitosamente. Se corrigió el campo 'estaciones'."
+            }
+          ],
+          "requiere_revision": false
+        }
+      ]
+    }
   }
 ]
