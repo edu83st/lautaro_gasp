@@ -1,0 +1,15 @@
+[
+  {
+    "estaciones": "No especificado",
+    "almaPerfil": 220,
+    "tipoPerfil": "C",
+    "plano": "GMB2",
+    "longitud": 7353,
+    "cantidadGruposPunzonados": 3,
+    "punzonados": [35, 7045, 7131, 7353],
+    "distancias": [35, 7010, 86, 222],
+    "numeroChequeos": 0,
+    "observaciones": "[INFO] estaciones: No se encontró el dato 'estaciones' en el plano.",
+    "requiere_revision": false
+  }
+]

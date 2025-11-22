@@ -1,34 +1,31 @@
 // Transforma el input eliminando la estructura "output" y devolviendo solo el listado de JSONs
 // Este código está diseñado para ejecutarse en un nodo Code de n8n
-// También transforma el array de punzonados en un objeto con formato PZ-1, PZ-2, etc.
+//
+// Input esperado (del nodo 'AI Agent'):
+// - Items con estructura { json: { output: [...] } } donde cada elemento del array tiene:
+//   - punzonados como ARRAY (ej: [35, 7045, 7131, 7353])
+//   - longitud y almaPerfil pueden venir como string o número
+//
+// Procesamiento:
+// 1. Obtiene todos los items del nodo 'AI Agent'
+// 2. Itera sobre cada item extrayendo el campo "output" (que es un array)
+// 3. Extrae cada elemento del array "output" y los "aplana" eliminando la estructura anidada
+// 4. Transforma cada elemento extraído:
+//    - Convierte longitud y almaPerfil de string a número si es necesario
+//    - Los punzonados se mantienen como array (no se transforman)
+// 5. Retorna todos los elementos transformados en formato n8n { json: {...} }
+//
+// Output: Array de objetos con estructura { json: {...} } donde cada json contiene
+// todos los campos del elemento original con las transformaciones aplicadas
+// (punzonados se mantienen como array)
 
-// Obtener todos los items de entrada desde n8n
-const items = $('AI Agent').first().json;
-return { items };
+// Obtener todos los items de entrada desde el nodo 'AI Agent'
+const items = $('AI Agent').all();
 
 // Array para almacenar todos los objetos JSON encontrados
 const resultados = [];
 
-/**
- * Convierte un array de punzonados en un objeto con formato { "PZ-1": valor1, "PZ-2": valor2, ... }
- * @param {Array} punzonadosArray - Array de valores de punzonados
- * @returns {Object} - Objeto con formato { "PZ-1": valor1, "PZ-2": valor2, ... }
- */
-function convertirPunzonadosArrayAObjeto(punzonadosArray) {
-  if (!Array.isArray(punzonadosArray)) {
-    return {};
-  }
-
-  const punzonadosObjeto = {};
-  punzonadosArray.forEach((valor, index) => {
-    const clave = `PZ-${index + 1}`;
-    punzonadosObjeto[clave] = valor;
-  });
-
-  return punzonadosObjeto;
-}
-
-// Iterar sobre cada item
+// Iterar sobre cada item del nodo 'AI Agent'
 for (const item of items) {
   const json = item.json;
 
@@ -40,13 +37,6 @@ for (const item of items) {
       for (const elemento of json.output) {
         // Crear una copia del elemento para no modificar el original
         const elementoTransformado = { ...elemento };
-
-        // Convertir el array de punzonados a objeto si existe
-        if (Array.isArray(elementoTransformado.punzonados)) {
-          elementoTransformado.punzonados = convertirPunzonadosArrayAObjeto(
-            elementoTransformado.punzonados
-          );
-        }
 
         // Asegurar que longitud sea un número si viene como string
         if (typeof elementoTransformado.longitud === 'string') {

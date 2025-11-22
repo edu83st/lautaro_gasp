@@ -1,15 +1,23 @@
 // Valida que cada item cumpla con la checklist de validación de planos
-// Este código está diseñado para ejecutarse en un nodo Code de n8n
-// También realiza transformaciones de datos (conversión de tipos, formato de punzonados)
+// También realiza transformaciones de datos y genera un output simplificado
 //
-// Transformaciones:
-// 1. Convierte array de punzonados a objeto con formato PZ-1, PZ-2, etc.
-// 2. Convierte valores string a números (longitud, almaPerfil)
+// Transformaciones (internas, no se incluyen en el output):
+// 1. Extrae elementos del input manejando formato con "output" (array) o sin él
+// 2. Convierte valores string a números (longitud, almaPerfil, distancias)
+// Nota: Los punzonados se convierten temporalmente a objeto para facilitar las validaciones,
+// pero esta transformación no se retorna en el output
 //
 // Checklist de validación:
-// 1. El último punzonado debe ser igual a la longitud de las piezas
-// 2. La cantidad de grupos de punzonados debe ser igual a las medidas obtenidas - 1
-//    (exceptuando la correspondiente a la de la longitud)
+// 1. El último punzonado debe ser igual a la longitud de la pieza
+// 2. La cantidad de grupos de punzonados debe ser igual a distancias.length - 1
+// Las validaciones agregan nuevas observaciones al array existente si encuentran errores
+//
+// Output:
+// Retorna SOLO 3 campos por item:
+// - numeroChequeos: valor del input (se conserva tal cual)
+// - observaciones: array de strings formateados con prefijo "plano {nombre} {descripcion}"
+//   (incluye las observaciones del input + las nuevas generadas por las validaciones)
+// - necesitaCorreccion: boolean (mapeo de requiere_revision del input o true si hay errores)
 
 // Obtener todos los items de entrada desde n8n
 const items = $input.all();
