@@ -1,0 +1,170 @@
+[
+  {
+    "cliente": "TECHAARG",
+    "obra": "1132 - MOLINOS BOMBAL",
+    "estaciones": "N/A",
+    "almaPerfil": 220,
+    "tipoPerfil": "C",
+    "plano": "GMB2",
+    "longitud": 7353,
+    "cantidadGruposPunzonados": 3,
+    "punzonados": [35, 7045, 7131, 7353],
+    "distancias": [35, 7010, 86, 222],
+    "numeroChequeos": 0,
+    "observaciones": [
+      {
+        "severidad": "info",
+        "campo": "general",
+        "descripcion": "Extracción completada exitosamente. Se identificó rotura en el plano."
+      }
+    ],
+    "requiere_revision": false
+  },
+  {
+    "cliente": "TECHAARG",
+    "obra": "1132 - MOLINOS BOMBAL",
+    "estaciones": "N/A",
+    "almaPerfil": 220,
+    "tipoPerfil": "C",
+    "plano": "GMB3",
+    "longitud": 7213,
+    "cantidadGruposPunzonados": 3,
+    "punzonados": [82, 168, 7178, 7213],
+    "distancias": [82, 86, 7010, 35],
+    "numeroChequeos": 0,
+    "observaciones": [
+      {
+        "severidad": "info",
+        "campo": "general",
+        "descripcion": "Extracción completada exitosamente. Se identificó rotura en el plano."
+      }
+    ],
+    "requiere_revision": false
+  },
+  {
+    "cliente": "TECHAARG",
+    "obra": "1132 - MOLINOS BOMBAL",
+    "estaciones": "N/A",
+    "almaPerfil": 220,
+    "tipoPerfil": "C",
+    "plano": "GMB5",
+    "longitud": 7080,
+    "cantidadGruposPunzonados": 2,
+    "punzonados": [35, 7045, 7080],
+    "distancias": [35, 7010, 35],
+    "numeroChequeos": 0,
+    "observaciones": [
+      {
+        "severidad": "info",
+        "campo": "general",
+        "descripcion": "Extracción completada exitosamente. Se identificó rotura en el plano."
+      }
+    ],
+    "requiere_revision": false
+  },
+  {
+    "cliente": "TECHAARG",
+    "obra": "1132 - MOLINOS BOMBAL",
+    "estaciones": "N/A",
+    "almaPerfil": 220,
+    "tipoPerfil": "C",
+    "plano": "GMB10",
+    "longitud": 8056,
+    "cantidadGruposPunzonados": 4,
+    "punzonados": [35, 7045, 7131, 8021, 8056],
+    "distancias": [35, 7010, 86, 890, 35],
+    "numeroChequeos": 0,
+    "observaciones": [
+      {
+        "severidad": "info",
+        "campo": "general",
+        "descripcion": "Extracción completada exitosamente. Se identificó rotura en el plano."
+      }
+    ],
+    "requiere_revision": false
+  },
+  {
+    "cliente": "TECHAARG",
+    "obra": "1132 - MOLINOS BOMBAL",
+    "estaciones": "N/A",
+    "almaPerfil": 100,
+    "tipoPerfil": "C",
+    "plano": "GMB11",
+    "longitud": 3378,
+    "cantidadGruposPunzonados": 2,
+    "punzonados": [3079, 3114, 3378],
+    "distancias": [3079, 35, 264],
+    "numeroChequeos": 0,
+    "observaciones": [
+      {
+        "severidad": "info",
+        "campo": "general",
+        "descripcion": "Extracción completada exitosamente. Se identificó rotura en el plano."
+      }
+    ],
+    "requiere_revision": false
+  },
+  {
+    "cliente": "TECHAARG",
+    "obra": "1132 - MOLINOS BOMBAL",
+    "estaciones": "N/A",
+    "almaPerfil": 100,
+    "tipoPerfil": "C",
+    "plano": "GMB12",
+    "longitud": 2808,
+    "cantidadGruposPunzonados": 3,
+    "punzonados": [35, 2738, 2773, 2808],
+    "distancias": [35, 2703, 35, 35],
+    "numeroChequeos": 0,
+    "observaciones": [
+      {
+        "severidad": "info",
+        "campo": "general",
+        "descripcion": "Extracción completada exitosamente. Se identificó rotura en el plano."
+      }
+    ],
+    "requiere_revision": false
+  },
+  {
+    "cliente": "TECHAARG",
+    "obra": "1132 - MOLINOS BOMBAL",
+    "estaciones": "N/A",
+    "almaPerfil": 220,
+    "tipoPerfil": "C",
+    "plano": "GMB13",
+    "longitud": 8189,
+    "cantidadGruposPunzonados": 4,
+    "punzonados": [925, 1011, 8021, 8107, 8189],
+    "distancias": [925, 86, 7010, 86, 82],
+    "numeroChequeos": 0,
+    "observaciones": [
+      {
+        "severidad": "info",
+        "campo": "general",
+        "descripcion": "Extracción completada exitosamente. Se identificó rotura en el plano."
+      }
+    ],
+    "requiere_revision": false
+  },
+  {
+    "cliente": "TECHAARG",
+    "obra": "1132 - MOLINOS BOMBAL",
+    "estaciones": "N/A",
+    "almaPerfil": 220,
+    "tipoPerfil": "C",
+    "plano": "GMB14",
+    "longitud": 7543,
+    "cantidadGruposPunzonados": 4,
+    "punzonados": [129, 215, 7225, 7311, 7543],
+    "distancias": [129, 86, 7010, 86, 232],
+    "numeroChequeos": 0,
+    "observaciones": [
+      {
+        "severidad": "info",
+        "campo": "general",
+        "descripcion": "Extracción completada exitosamente. Se identificó rotura en el plano."
+      }
+    ],
+    "requiere_revision": false
+  }
+]
