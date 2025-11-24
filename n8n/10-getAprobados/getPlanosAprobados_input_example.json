@@ -1,0 +1,34 @@
+[
+  {
+    "row_number": 2,
+    "Id": "1055-GM21",
+    "Cliente": "TECHAARG",
+    "Obra": "1055 - MILITELLO",
+    "Estaciones": "N/A",
+    "Alma Perfil": 240,
+    "Tipo Perfil": "C",
+    "Plano": "1055-GM21",
+    "Longitud": 6420,
+    "Cant Punzonados": 5,
+    "Observaciones": "[WARNING] distancias: La suma de las distancias (6349) no coincide con la longitud total (6420).",
+    "Aprobado por": "ecalle",
+    "Archivo": "",
+    "Aprobado": 1
+  },
+  {
+    "row_number": 3,
+    "Id": "1055-GM22",
+    "Cliente": "TECHAARG",
+    "Obra": "1055 - MILITELLO",
+    "Estaciones": "N/A",
+    "Alma Perfil": 140,
+    "Tipo Perfil": "C",
+    "Plano": "1055-GM22",
+    "Longitud": 6037,
+    "Cant Punzonados": 7,
+    "Observaciones": "[WARNING] distancias: La suma de las distancias (6067) no coincide con la longitud total (6037).",
+    "Aprobado por": "ecalle",
+    "Archivo": "",
+    "Aprobado": 1
+  }
+]

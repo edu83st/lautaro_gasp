@@ -1,0 +1,722 @@
+[
+  {
+    "row_number": 3,
+    "Hash": "01NJTBYN",
+    "PlanoId": "1055-GM21",
+    "Medida": "PZ-2",
+    "Valor": 170,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 4,
+    "Hash": "01570PKA",
+    "PlanoId": "1055-GM21",
+    "Medida": "PZ-3",
+    "Valor": 240,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 5,
+    "Hash": "00ZO74DA",
+    "PlanoId": "1055-GM21",
+    "Medida": "PZ-4",
+    "Valor": 6074,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 6,
+    "Hash": "01YK72BJ",
+    "PlanoId": "1055-GM21",
+    "Medida": "PZ-5",
+    "Valor": 6144,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 7,
+    "Hash": "01IGB2PH",
+    "PlanoId": "1055-GM21",
+    "Medida": "PZ-6",
+    "Valor": 6385,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 8,
+    "Hash": "00IM5OVW",
+    "PlanoId": "1055-GM21",
+    "Medida": "PZ-7",
+    "Valor": 6420,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 9,
+    "Hash": "00ZNFNRJ",
+    "PlanoId": "1055-GM22",
+    "Medida": "PZ-1",
+    "Valor": 35,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 10,
+    "Hash": "00U8DL4J",
+    "PlanoId": "1055-GM22",
+    "Medida": "PZ-2",
+    "Valor": 70,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 11,
+    "Hash": "0103D4ZN",
+    "PlanoId": "1055-GM22",
+    "Medida": "PZ-3",
+    "Valor": 105,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 12,
+    "Hash": "01OHEQBX",
+    "PlanoId": "1055-GM22",
+    "Medida": "PZ-4",
+    "Valor": 5671,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 13,
+    "Hash": "01SVZRAC",
+    "PlanoId": "1055-GM22",
+    "Medida": "PZ-5",
+    "Valor": 5741,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 14,
+    "Hash": "006YZLLK",
+    "PlanoId": "1055-GM22",
+    "Medida": "PZ-6",
+    "Valor": 6002,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 15,
+    "Hash": "00TLBK89",
+    "PlanoId": "1055-GM22",
+    "Medida": "PZ-7",
+    "Valor": 6037,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 16,
+    "Hash": "0142Y3HB",
+    "PlanoId": "1055-GM23",
+    "Medida": "PZ-1",
+    "Valor": 70,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 17,
+    "Hash": "01DUSYPW",
+    "PlanoId": "1055-GM23",
+    "Medida": "PZ-2",
+    "Valor": 173,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 18,
+    "Hash": "014M3JM1",
+    "PlanoId": "1055-GM23",
+    "Medida": "PZ-3",
+    "Valor": 243,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 19,
+    "Hash": "01O4JZ14",
+    "PlanoId": "1055-GM23",
+    "Medida": "PZ-4",
+    "Valor": 6074,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 20,
+    "Hash": "01WBHU45",
+    "PlanoId": "1055-GM23",
+    "Medida": "PZ-5",
+    "Valor": 6144,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 21,
+    "Hash": "017JYDY2",
+    "PlanoId": "1055-GM23",
+    "Medida": "PZ-6",
+    "Valor": 6405,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 22,
+    "Hash": "0197Z9GS",
+    "PlanoId": "1055-GM23",
+    "Medida": "PZ-7",
+    "Valor": 6440,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 23,
+    "Hash": "01Y09JJ9",
+    "PlanoId": "1055-GM24",
+    "Medida": "PZ-1",
+    "Valor": 35,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 24,
+    "Hash": "006LVW11",
+    "PlanoId": "1055-GM24",
+    "Medida": "PZ-2",
+    "Valor": 70,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 25,
+    "Hash": "00CIDMX1",
+    "PlanoId": "1055-GM24",
+    "Medida": "PZ-3",
+    "Valor": 105,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 26,
+    "Hash": "013H7I6O",
+    "PlanoId": "1055-GM24",
+    "Medida": "PZ-4",
+    "Valor": 5515,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 27,
+    "Hash": "01NRA82S",
+    "PlanoId": "1055-GM24",
+    "Medida": "PZ-5",
+    "Valor": 5585,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 28,
+    "Hash": "003XH99Z",
+    "PlanoId": "1055-GM24",
+    "Medida": "PZ-6",
+    "Valor": 5620,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 29,
+    "Hash": "00IHQLIN",
+    "PlanoId": "1055-GM21",
+    "Medida": "PZ-1",
+    "Valor": 173,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 30,
+    "Hash": "00UQW4P0",
+    "PlanoId": "1055-GM21",
+    "Medida": "PZ-2",
+    "Valor": 6074,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 31,
+    "Hash": "001MSY2P",
+    "PlanoId": "1055-GM21",
+    "Medida": "PZ-3",
+    "Valor": 6144,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 32,
+    "Hash": "01A8P7N7",
+    "PlanoId": "1055-GM21",
+    "Medida": "PZ-4",
+    "Valor": 6385,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 33,
+    "Hash": "00RSJXHU",
+    "PlanoId": "1055-GM21",
+    "Medida": "PZ-5",
+    "Valor": 6420,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 34,
+    "Hash": "011Q3DFH",
+    "PlanoId": "1055-GM23",
+    "Medida": "PZ-1",
+    "Valor": 173,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 35,
+    "Hash": "01CNCFHI",
+    "PlanoId": "1055-GM23",
+    "Medida": "PZ-2",
+    "Valor": 243,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 36,
+    "Hash": "014H92MZ",
+    "PlanoId": "1055-GM23",
+    "Medida": "PZ-3",
+    "Valor": 6074,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 37,
+    "Hash": "01TIPWNC",
+    "PlanoId": "1055-GM23",
+    "Medida": "PZ-4",
+    "Valor": 6144,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 38,
+    "Hash": "01MV0H85",
+    "PlanoId": "1055-GM23",
+    "Medida": "PZ-5",
+    "Valor": 6405,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 39,
+    "Hash": "004ZWG4L",
+    "PlanoId": "1055-GM23",
+    "Medida": "PZ-6",
+    "Valor": 6440,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 40,
+    "Hash": "00X2OEJ6",
+    "PlanoId": "1055-GM24",
+    "Medida": "PZ-2",
+    "Valor": 105,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 41,
+    "Hash": "01ORU3IZ",
+    "PlanoId": "1055-GM24",
+    "Medida": "PZ-3",
+    "Valor": 5515,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 42,
+    "Hash": "0191NU5P",
+    "PlanoId": "1055-GM24",
+    "Medida": "PZ-4",
+    "Valor": 5585,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 43,
+    "Hash": "00FLYOR0",
+    "PlanoId": "1055-GM24",
+    "Medida": "PZ-5",
+    "Valor": 5620,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 44,
+    "Hash": "00MHEGZB",
+    "PlanoId": "GMB2",
+    "Medida": "PZ-1",
+    "Valor": 35,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 45,
+    "Hash": "019EWQ8A",
+    "PlanoId": "GMB2",
+    "Medida": "PZ-2",
+    "Valor": 7010,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 46,
+    "Hash": "01QQU5YL",
+    "PlanoId": "GMB2",
+    "Medida": "PZ-3",
+    "Valor": 7045,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 47,
+    "Hash": "00DK9HV6",
+    "PlanoId": "GMB2",
+    "Medida": "PZ-4",
+    "Valor": 7131,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 48,
+    "Hash": "01IUT1XH",
+    "PlanoId": "GMB2",
+    "Medida": "PZ-5",
+    "Valor": 7353,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 49,
+    "Hash": "00JFNMG6",
+    "PlanoId": "GMB3",
+    "Medida": "PZ-1",
+    "Valor": 82,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 50,
+    "Hash": "01V9XSE8",
+    "PlanoId": "GMB3",
+    "Medida": "PZ-2",
+    "Valor": 164,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 51,
+    "Hash": "01JDQL2P",
+    "PlanoId": "GMB3",
+    "Medida": "PZ-3",
+    "Valor": 250,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 52,
+    "Hash": "01WP9LI2",
+    "PlanoId": "GMB3",
+    "Medida": "PZ-4",
+    "Valor": 418,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 53,
+    "Hash": "00OFB05J",
+    "PlanoId": "GMB3",
+    "Medida": "PZ-5",
+    "Valor": 7178,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 54,
+    "Hash": "003FLUQE",
+    "PlanoId": "GMB3",
+    "Medida": "PZ-6",
+    "Valor": 7213,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 55,
+    "Hash": "00N5XNW2",
+    "PlanoId": "GMB5",
+    "Medida": "PZ-1",
+    "Valor": 220,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 56,
+    "Hash": "00R3QWUA",
+    "PlanoId": "GMB5",
+    "Medida": "PZ-2",
+    "Valor": 160,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 57,
+    "Hash": "00VZ08KY",
+    "PlanoId": "GMB5",
+    "Medida": "PZ-3",
+    "Valor": 60,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 58,
+    "Hash": "014XH091",
+    "PlanoId": "GMB5",
+    "Medida": "PZ-4",
+    "Valor": 0,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 59,
+    "Hash": "01OSMU5D",
+    "PlanoId": "GMB5",
+    "Medida": "PZ-5",
+    "Valor": 7080,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 60,
+    "Hash": "01PK1PQF",
+    "PlanoId": "GMB10",
+    "Medida": "PZ-1",
+    "Valor": 120,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 61,
+    "Hash": "01VN0J1K",
+    "PlanoId": "GMB10",
+    "Medida": "PZ-2",
+    "Valor": 100,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 62,
+    "Hash": "004G1GIW",
+    "PlanoId": "GMB10",
+    "Medida": "PZ-3",
+    "Valor": 80,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 63,
+    "Hash": "008JP198",
+    "PlanoId": "GMB10",
+    "Medida": "PZ-4",
+    "Valor": 70,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 64,
+    "Hash": "0145TJ0H",
+    "PlanoId": "GMB10",
+    "Medida": "PZ-5",
+    "Valor": 8056,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 65,
+    "Hash": "002LZ9PT",
+    "PlanoId": "GMB11",
+    "Medida": "PZ-1",
+    "Valor": 35,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 66,
+    "Hash": "013HZV3X",
+    "PlanoId": "GMB11",
+    "Medida": "PZ-2",
+    "Valor": 3079,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 67,
+    "Hash": "01FOLOYA",
+    "PlanoId": "GMB11",
+    "Medida": "PZ-3",
+    "Valor": 3114,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 68,
+    "Hash": "00YRT9XX",
+    "PlanoId": "GMB11",
+    "Medida": "PZ-4",
+    "Valor": 3378,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 69,
+    "Hash": "01XAHZ98",
+    "PlanoId": "GMB12",
+    "Medida": "PZ-1",
+    "Valor": 35,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 70,
+    "Hash": "00X7S0SJ",
+    "PlanoId": "GMB12",
+    "Medida": "PZ-2",
+    "Valor": 2738,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 71,
+    "Hash": "00HJOXVN",
+    "PlanoId": "GMB12",
+    "Medida": "PZ-3",
+    "Valor": 2773,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 72,
+    "Hash": "0041H187",
+    "PlanoId": "GMB12",
+    "Medida": "PZ-4",
+    "Valor": 2808,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 73,
+    "Hash": "01P7M78X",
+    "PlanoId": "GMB13",
+    "Medida": "PZ-1",
+    "Valor": 220,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 74,
+    "Hash": "01DTT6TT",
+    "PlanoId": "GMB13",
+    "Medida": "PZ-2",
+    "Valor": 160,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 75,
+    "Hash": "00TI1RPF",
+    "PlanoId": "GMB13",
+    "Medida": "PZ-3",
+    "Valor": 60,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 76,
+    "Hash": "00IWPUWQ",
+    "PlanoId": "GMB13",
+    "Medida": "PZ-4",
+    "Valor": 0,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 77,
+    "Hash": "01452OPJ",
+    "PlanoId": "GMB13",
+    "Medida": "PZ-5",
+    "Valor": 8189,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 78,
+    "Hash": "005QD66W",
+    "PlanoId": "GMB14",
+    "Medida": "PZ-1",
+    "Valor": 129,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 79,
+    "Hash": "01O80K63",
+    "PlanoId": "GMB14",
+    "Medida": "PZ-2",
+    "Valor": 86,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 80,
+    "Hash": "01QH6GK4",
+    "PlanoId": "GMB14",
+    "Medida": "PZ-3",
+    "Valor": 215,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 81,
+    "Hash": "00NSNVVF",
+    "PlanoId": "GMB14",
+    "Medida": "PZ-4",
+    "Valor": 7225,
+    "Aprobado por": "",
+    "Archivo": ""
+  },
+  {
+    "row_number": 82,
+    "Hash": "013OOLKB",
+    "PlanoId": "GMB14",
+    "Medida": "PZ-5",
+    "Valor": 7543,
+    "Aprobado por": "",
+    "Archivo": ""
+  }
+]
