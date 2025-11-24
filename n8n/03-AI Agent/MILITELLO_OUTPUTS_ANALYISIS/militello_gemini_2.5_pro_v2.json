@@ -1,0 +1,90 @@
+[
+  {
+    "output": [
+      {
+        "cliente": "TECHAARG",
+        "obra": "1055 - MILITELLO",
+        "estaciones": "N/A",
+        "almaPerfil": 240,
+        "tipoPerfil": "C",
+        "plano": "1055-GM21",
+        "longitud": 6420,
+        "cantidadGruposPunzonados": 5,
+        "punzonados": [173, 6074, 6144, 6385, 6420],
+        "distancias": [173, 5830, 70, 241, 35],
+        "numeroChequeos": 0,
+        "observaciones": [
+          {
+            "severidad": "warning",
+            "campo": "distancias",
+            "descripcion": "La suma de las distancias (6349) no coincide con la longitud total (6420)."
+          }
+        ],
+        "requiere_revision": true
+      },
+      {
+        "cliente": "TECHAARG",
+        "obra": "1055 - MILITELLO",
+        "estaciones": "N/A",
+        "almaPerfil": 140,
+        "tipoPerfil": "C",
+        "plano": "1055-GM22",
+        "longitud": 6037,
+        "cantidadGruposPunzonados": 7,
+        "punzonados": [35, 70, 105, 5671, 5741, 6002, 6037],
+        "distancias": [35, 35, 35, 5596, 70, 261, 35],
+        "numeroChequeos": 0,
+        "observaciones": [
+          {
+            "severidad": "warning",
+            "campo": "distancias",
+            "descripcion": "La suma de las distancias (6067) no coincide con la longitud total (6037)."
+          }
+        ],
+        "requiere_revision": true
+      },
+      {
+        "cliente": "TECHAARG",
+        "obra": "1055 - MILITELLO",
+        "estaciones": "N/A",
+        "almaPerfil": 140,
+        "tipoPerfil": "C",
+        "plano": "1055-GM23",
+        "longitud": 6440,
+        "cantidadGruposPunzonados": 6,
+        "punzonados": [173, 243, 6074, 6144, 6405, 6440],
+        "distancias": [173, 70, 5831, 70, 261, 35],
+        "numeroChequeos": 0,
+        "observaciones": [
+          {
+            "severidad": "info",
+            "campo": "general",
+            "descripcion": "Extracción completada exitosamente."
+          }
+        ],
+        "requiere_revision": false
+      },
+      {
+        "cliente": "TECHAARG",
+        "obra": "1055 - MILITELLO",
+        "estaciones": "N/A",
+        "almaPerfil": 240,
+        "tipoPerfil": "C",
+        "plano": "1055-GM24",
+        "longitud": 5620,
+        "cantidadGruposPunzonados": 5,
+        "punzonados": [35, 105, 5515, 5585, 5620],
+        "distancias": [35, 70, 5410, 70, 35],
+        "numeroChequeos": 0,
+        "observaciones": [
+          {
+            "severidad": "info",
+            "campo": "general",
+            "descripcion": "Extracción completada exitosamente."
+          }
+        ],
+        "requiere_revision": false
+      }
+    ]
+  }
+]
