@@ -26,7 +26,7 @@ Cuando una pieza es muy larga para caber completamente en el plano, se represent
 ### Ejemplo visual de rotura:
 
 ```
-Dibujo de la pieza (extendida horizontalmente a lo largo del eje X):
+Dibujo de la pieza (extendiada horizontalmente a lo largo del eje X):
 ┌─────────────────┐
 │  [punzonados]   │ ← Parte inicial
 │        │        │

@@ -1,0 +1,54 @@
+[
+  {
+    "output": [
+      {
+        "estaciones": "N/A",
+        "almaPerfil": 220,
+        "tipoPerfil": "C",
+        "plano": "GMB2",
+        "longitud": 7353,
+        "cantidadGruposPunzonados": 3,
+        "punzonados": [35, 7046, 7131, 7353],
+        "distancias": [35, 7011, 85, 222],
+        "numeroChequeos": 0,
+        "observaciones": [
+          {
+            "severidad": "error",
+            "campo": "distancias",
+            "descripcion": "Las cotas de distancia horizontales en el plano (7010, 386) son inconsistentes con las posiciones de los punzonados. Se calcularon las distancias correctas (7011, 85) para que la suma coincida con la longitud total."
+          },
+          {
+            "severidad": "warning",
+            "campo": "estaciones",
+            "descripcion": "No se encontró información sobre 'estaciones' en el plano."
+          }
+        ],
+        "requiere_revision": true
+      },
+      {
+        "estaciones": "N/A",
+        "almaPerfil": 220,
+        "tipoPerfil": "C",
+        "plano": "GMB3",
+        "longitud": 7213,
+        "cantidadGruposPunzonados": 5,
+        "punzonados": [82, 164, 250, 418, 7178, 7213],
+        "distancias": [82, 82, 86, 168, 6760, 35],
+        "numeroChequeos": 0,
+        "observaciones": [
+          {
+            "severidad": "warning",
+            "campo": "estaciones",
+            "descripcion": "No se encontró información sobre 'estaciones' en el plano."
+          },
+          {
+            "severidad": "info",
+            "campo": "general",
+            "descripcion": "Extracción completada exitosamente. Todas las validaciones de cotas pasaron."
+          }
+        ],
+        "requiere_revision": false
+      }
+    ]
+  }
+]

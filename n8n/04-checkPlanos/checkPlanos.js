@@ -1,23 +1,17 @@
 // Valida que cada item cumpla con la checklist de validación de planos
-// También realiza transformaciones de datos y genera un output simplificado
-//
-// Transformaciones (internas, no se incluyen en el output):
-// 1. Extrae elementos del input manejando formato con "output" (array) o sin él
-// 2. Convierte valores string a números (longitud, almaPerfil, distancias)
-// Nota: Los punzonados se convierten temporalmente a objeto para facilitar las validaciones,
-// pero esta transformación no se retorna en el output
 //
 // Checklist de validación:
-// 1. El último punzonado debe ser igual a la longitud de la pieza
-// 2. La cantidad de grupos de punzonados debe ser igual a distancias.length - 1
-// Las validaciones agregan nuevas observaciones al array existente si encuentran errores
+// 1. Todos los campos requeridos han sido completados (estaciones, almaPerfil, tipoPerfil, plano, longitud, cantidadGruposPunzonados)
+// 2. La sumatoria de las distancias corresponde al largo de la pieza
+// 3. El último punzonado coincide con el largo de la pieza
+// 4. La cantidad de grupos de punzonados equivale al número de punzonados - 1 (siendo el último asociado al largo de la pieza)
 //
 // Output:
-// Retorna SOLO 3 campos por item:
+// Retorna un array con objetos que contienen:
+// - plano: nombre del plano
 // - numeroChequeos: valor del input (se conserva tal cual)
-// - observaciones: array de strings formateados con prefijo "plano {nombre} {descripcion}"
-//   (incluye las observaciones del input + las nuevas generadas por las validaciones)
-// - necesitaCorreccion: boolean (mapeo de requiere_revision del input o true si hay errores)
+// - checks: objeto con los resultados de cada validación (boolean)
+// - necesitaRevision: boolean (true si algún check falla)
 
 // Obtener todos los items de entrada desde n8n
 const items = $input.all();
@@ -53,183 +47,89 @@ function extraerElementos(items) {
 // Extraer elementos del input (maneja formato con "output" o sin él)
 const elementosAProcesar = extraerElementos(items);
 
-/**
- * Convierte un array de punzonados en un objeto con formato { "PZ-1": valor1, "PZ-2": valor2, ... }
- * @param {Array} punzonadosArray - Array de valores de punzonados
- * @returns {Object} - Objeto con formato { "PZ-1": valor1, "PZ-2": valor2, ... }
- */
-function convertirPunzonadosArrayAObjeto(punzonadosArray) {
-  if (!Array.isArray(punzonadosArray)) {
-    return {};
-  }
-
-  const punzonadosObjeto = {};
-  punzonadosArray.forEach((valor, index) => {
-    const clave = `PZ-${index + 1}`;
-    punzonadosObjeto[clave] = valor;
-  });
-
-  return punzonadosObjeto;
-}
-
-/**
- * Extrae los valores de punzonados de un objeto o array y los retorna ordenados
- * @param {Object|Array} punzonados - Objeto con formato { "PZ-1": valor, ... } o array
- * @returns {Array} - Array de valores numéricos ordenados
- */
-function extraerValoresPunzonados(punzonados) {
-  if (Array.isArray(punzonados)) {
-    return punzonados.map((p) => (typeof p === 'string' ? parseFloat(p) : p));
-  }
-
-  if (typeof punzonados === 'object' && punzonados !== null) {
-    // Extraer valores del objeto y ordenarlos por la clave numérica
-    const valores = Object.entries(punzonados)
-      .map(([clave, valor]) => ({
-        indice: parseInt(clave.replace('PZ-', '')) || 0,
-        valor: typeof valor === 'string' ? parseFloat(valor) : valor,
-      }))
-      .sort((a, b) => a.indice - b.indice)
-      .map((item) => item.valor);
-    return valores;
-  }
-
-  return [];
-}
-
 // Iterar sobre cada elemento a procesar
 for (const item of elementosAProcesar) {
   const json = item.json;
 
-  // Crear una copia del elemento para no modificar el original
-  const elementoValidado = { ...json };
+  // Obtener valores del elemento
+  const plano = json.plano || null;
+  const numeroChequeos =
+    json.numeroChequeos !== undefined ? json.numeroChequeos : 0;
 
-  // Inicializar observaciones si no existen
-  if (!Array.isArray(elementoValidado.observaciones)) {
-    elementoValidado.observaciones = [];
-  }
-
-  // TRANSFORMACIONES: Convertir array de punzonados a objeto si es necesario
-  if (Array.isArray(elementoValidado.punzonados)) {
-    elementoValidado.punzonados = convertirPunzonadosArrayAObjeto(
-      elementoValidado.punzonados
-    );
-  }
-
-  // TRANSFORMACIONES: Asegurar que los valores numéricos sean números
-  // Longitud
+  // Campos requeridos
+  const estaciones = json.estaciones;
+  const almaPerfil = json.almaPerfil;
+  const tipoPerfil = json.tipoPerfil;
   const longitud =
-    typeof elementoValidado.longitud === 'string'
-      ? parseFloat(elementoValidado.longitud) || 0
-      : elementoValidado.longitud;
+    typeof json.longitud === 'string'
+      ? parseFloat(json.longitud)
+      : json.longitud;
+  const cantidadGruposPunzonados = json.cantidadGruposPunzonados;
 
-  // AlmaPerfil
-  if (typeof elementoValidado.almaPerfil === 'string') {
-    elementoValidado.almaPerfil = parseFloat(elementoValidado.almaPerfil) || 0;
-  }
-
-  // Extraer valores de punzonados (maneja tanto objeto como array)
-  const valoresPunzonados = extraerValoresPunzonados(
-    elementoValidado.punzonados
-  );
-
-  const distancias = Array.isArray(elementoValidado.distancias)
-    ? elementoValidado.distancias.map((d) =>
-        typeof d === 'string' ? parseFloat(d) : d
-      )
+  // Arrays
+  const punzonados = Array.isArray(json.punzonados)
+    ? json.punzonados.map((p) => (typeof p === 'string' ? parseFloat(p) : p))
+    : [];
+  const distancias = Array.isArray(json.distancias)
+    ? json.distancias.map((d) => (typeof d === 'string' ? parseFloat(d) : d))
     : [];
 
-  // Validación 1: El último punzonado debe ser igual a la longitud
-  if (valoresPunzonados.length > 0) {
-    const ultimoPunzonado = valoresPunzonados[valoresPunzonados.length - 1];
-    if (ultimoPunzonado !== longitud) {
-      elementoValidado.observaciones.push({
-        severidad: 'error',
-        campo: 'punzonados',
-        descripcion: `El último punzonado (${ultimoPunzonado}) no coincide con la longitud de la pieza (${longitud}). Diferencia: ${Math.abs(
-          ultimoPunzonado - longitud
-        )}`,
-      });
-      elementoValidado.requiere_revision = true;
-    }
-  } else {
-    elementoValidado.observaciones.push({
-      severidad: 'warning',
-      campo: 'punzonados',
-      descripcion: 'No se encontraron punzonados para validar.',
-    });
-  }
+  // CHECK 1: Todos los campos requeridos han sido completados
+  const campos_completos =
+    estaciones !== undefined &&
+    estaciones !== null &&
+    estaciones !== '' &&
+    almaPerfil !== undefined &&
+    almaPerfil !== null &&
+    tipoPerfil !== undefined &&
+    tipoPerfil !== null &&
+    tipoPerfil !== '' &&
+    plano !== undefined &&
+    plano !== null &&
+    plano !== '' &&
+    longitud !== undefined &&
+    longitud !== null &&
+    !isNaN(longitud) &&
+    longitud > 0 &&
+    cantidadGruposPunzonados !== undefined &&
+    cantidadGruposPunzonados !== null &&
+    !isNaN(cantidadGruposPunzonados);
 
-  // Validación 2: La cantidad de grupos de punzonados debe ser igual a las medidas obtenidas - 1
-  // (exceptuando la correspondiente a la de la longitud)
-  // Esto significa: cantidadGruposPunzonados === distancias.length - 1
-  if (distancias.length > 0) {
-    // Obtener cantidadGruposPunzonados del elemento o calcularlo si no existe
-    let cantidadGruposPunzonados = elementoValidado.cantidadGruposPunzonados;
+  // CHECK 2: La sumatoria de las distancias corresponde al largo de la pieza
+  const sumaDistancias = distancias.reduce((sum, d) => sum + d, 0);
+  const sumataria_distancias =
+    distancias.length > 0 && Math.abs(sumaDistancias - longitud) < 0.01; // tolerancia para errores de punto flotante
 
-    // Si no existe el campo, calcularlo desde los punzonados
-    if (
-      cantidadGruposPunzonados === undefined ||
-      cantidadGruposPunzonados === null
-    ) {
-      if (Array.isArray(elementoValidado.punzonados)) {
-        cantidadGruposPunzonados = elementoValidado.punzonados.length;
-      } else if (
-        typeof elementoValidado.punzonados === 'object' &&
-        elementoValidado.punzonados !== null
-      ) {
-        cantidadGruposPunzonados = Object.keys(
-          elementoValidado.punzonados
-        ).length;
-      } else {
-        cantidadGruposPunzonados = 0;
-      }
-    }
+  // CHECK 3: El último punzonado coincide con el largo de la pieza
+  const ultimoPunzonado =
+    punzonados.length > 0 ? punzonados[punzonados.length - 1] : null;
+  const ultimo_punzonado =
+    ultimoPunzonado !== null && ultimoPunzonado === longitud;
 
-    // Asegurar que sea un número
-    cantidadGruposPunzonados =
-      typeof cantidadGruposPunzonados === 'string'
-        ? parseFloat(cantidadGruposPunzonados)
-        : cantidadGruposPunzonados;
+  // CHECK 4: La cantidad de grupos de punzonados equivale al número de punzonados - 1
+  // (siendo el último asociado al largo de la pieza)
+  const cantidad_punzonados =
+    punzonados.length > 0 && cantidadGruposPunzonados === punzonados.length - 1;
 
-    const cantidadDistanciasSinLongitud = distancias.length - 1;
+  // Determinar si necesita revisión (si algún check falla)
+  const necesitaRevision =
+    !campos_completos ||
+    !sumataria_distancias ||
+    !ultimo_punzonado ||
+    !cantidad_punzonados;
 
-    if (cantidadGruposPunzonados !== cantidadDistanciasSinLongitud) {
-      elementoValidado.observaciones.push({
-        severidad: 'error',
-        campo: 'cantidadGruposPunzonados',
-        descripcion: `La cantidad de grupos de punzonados (${cantidadGruposPunzonados}) no coincide con la cantidad de distancias menos 1 (${cantidadDistanciasSinLongitud}). Se esperaban ${cantidadDistanciasSinLongitud} grupos de punzonados.`,
-      });
-      elementoValidado.requiere_revision = true;
-    }
-
-    // Asegurar que el campo cantidadGruposPunzonados esté presente en el output
-    elementoValidado.cantidadGruposPunzonados = cantidadGruposPunzonados;
-  } else {
-    elementoValidado.observaciones.push({
-      severidad: 'warning',
-      campo: 'distancias',
-      descripcion: 'No se encontraron distancias para validar.',
-    });
-  }
-
-  // Asegurar que requiere_revision esté definido (por defecto false)
-  if (elementoValidado.requiere_revision === undefined) {
-    elementoValidado.requiere_revision = false;
-  }
-
-  // Convertir observaciones a formato string con prefijo del plano
-  const planoNombre = elementoValidado.plano || 'Sin identificar';
-  const observacionesFormateadas = elementoValidado.observaciones.map(
-    (obs) => `plano ${planoNombre} ${obs.descripcion}`
-  );
-
-  // OUTPUT: Formato simplificado con numeroChequeos, observaciones como strings y necesitaCorreccion
+  // Construir el resultado
   resultados.push({
     json: {
-      numeroChequeos: elementoValidado.numeroChequeos,
-      observaciones: observacionesFormateadas,
-      necesitaCorreccion: elementoValidado.requiere_revision,
+      plano: plano,
+      numeroChequeos: numeroChequeos,
+      checks: {
+        campos_completos: campos_completos,
+        sumataria_distancias: sumataria_distancias,
+        ultimo_punzonado: ultimo_punzonado,
+        cantidad_punzonados: cantidad_punzonados,
+      },
+      necesitaRevision: necesitaRevision,
     },
   });
 }

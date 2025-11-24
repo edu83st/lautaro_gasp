@@ -1,0 +1,18 @@
+[
+  {
+    "numeroChequeos": 0,
+    "observaciones": [
+      "plano GMB2 Las cotas de distancia horizontales en el plano (7010, 386) son inconsistentes con las posiciones de los punzonados. Se calcularon las distancias correctas (7011, 85) para que la suma coincida con la longitud total.",
+      "plano GMB2 No se encontró información sobre 'estaciones' en el plano."
+    ],
+    "necesitaCorreccion": true
+  },
+  {
+    "numeroChequeos": 0,
+    "observaciones": [
+      "plano GMB3 No se encontró información sobre 'estaciones' en el plano.",
+      "plano GMB3 Extracción completada exitosamente. Todas las validaciones de cotas pasaron."
+    ],
+    "necesitaCorreccion": false
+  }
+]
